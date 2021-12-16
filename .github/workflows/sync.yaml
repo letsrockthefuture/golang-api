@@ -40,6 +40,7 @@ jobs:
   #         repository: danielvincenzi/${{ github.event.repository.name }}
   #         tags: ${{ github.sha }}, latest
   release_drafter:
+    name: Release drafter
     runs-on: ubuntu-latest
     steps:
       # Drafts your next Release notes as Pull Requests are merged into "master"
