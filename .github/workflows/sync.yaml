@@ -53,6 +53,8 @@ jobs:
           config-name: release.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    outputs:
+      id: ${{ steps.release_drafter.outputs.id }}
 
   build:
     name: Build Docker image
@@ -84,7 +86,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ github.event.repository.name }}
           # IMAGE_TAG: ${{ github.sha }}
-          IMAGE_TAG: ${{ needs.release_drafter.steps.release_drafter.outputs.id }}
+          IMAGE_TAG: ${{ needs.release_drafter.outputs.id }}
         working-directory: "src/"
         run: |
           docker build -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
