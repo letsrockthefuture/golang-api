@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- rollout.yaml
+- service.yaml
+- service_preview.yaml
+
+namespace: default
+
+images:
+- name: go-example-argocd
+  newName: 260712519057.dkr.ecr.us-east-1.amazonaws.com/go-example-argocd
+  newTag: 62487f9144c23cc5054b9c8a04543c356f280614
