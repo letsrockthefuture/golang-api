@@ -76,15 +76,15 @@ jobs:
           role-session-name: letsrockthefuture
 
       - name: Login to Amazon ECR
-        id: login-ecr
+        id: login_ecr
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build, tag, and push image to Amazon ECR
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REGISTRY: ${{ steps.login_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ github.event.repository.name }}
           # IMAGE_TAG: ${{ github.sha }}
-          IMAGE_TAG: ${{ steps.release_drafter.outputs.name }}
+          IMAGE_TAG: ${{ jobs.release_drafter.steps.release_drafter.outputs.id }}
         working-directory: "src/"
         run: |
           docker build -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
@@ -105,13 +105,13 @@ jobs:
       - name: Update manifests to new version
         working-directory: "kubernetes/"
         run: |
-          kustomize edit set image ${{ github.event.repository.name }}=260712519057.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:${{ steps.release_drafter.outputs.name }}
+          kustomize edit set image ${{ github.event.repository.name }}=260712519057.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:${{ jobs.release_drafter.steps.release_drafter.outputs.id }}
 
       - name: Commit changes
         run: |
           git config --local user.name 'letsrockthefuturebot'
           git add .
-          git commit -m 'Trigger ArgoCD sync with `${{ steps.release_drafter.outputs.name }}`'
+          git commit -m 'Trigger ArgoCD sync with `${{ jobs.release_drafter.steps.release_drafter.outputs.id }}`'
 
       - name: Push changes
         uses: ad-m/github-push-action@master
