@@ -1,1 +1,3 @@
-# golang-api [![Terraform workflow](https://github.com/letsrockthefuture/golang-api/actions/workflows/terraform.yaml/badge.svg?branch=main)](https://github.com/letsrockthefuture/golang-api/actions/workflows/terraform.yaml) [![Release drafter & ArgoCD sync workflow](https://github.com/letsrockthefuture/golang-api/actions/workflows/sync.yaml/badge.svg)](https://github.com/letsrockthefuture/golang-api/actions/workflows/sync.yaml)
+# golang-api
+
+[![Terraform workflow](https://github.com/letsrockthefuture/golang-api/actions/workflows/terraform.yaml/badge.svg?branch=main)](https://github.com/letsrockthefuture/golang-api/actions/workflows/terraform.yaml) [![Release drafter & ArgoCD sync workflow](https://github.com/letsrockthefuture/golang-api/actions/workflows/sync.yaml/badge.svg)](https://github.com/letsrockthefuture/golang-api/actions/workflows/sync.yaml)
