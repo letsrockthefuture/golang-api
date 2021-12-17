@@ -11,7 +11,7 @@ terraform {
   }
 
   cloud {
-    organization = "letsfuturerocks"
+    organization = "letsrockthefuture"
 
     workspaces {
       name = "api-development-us-east-1"

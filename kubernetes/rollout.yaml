@@ -1,25 +1,25 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: go-example-argocd
+  name: golang-api
   labels:
-    app: go-example-argocd
+    app: golang-api
 spec:
   replicas: 3
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: go-example-argocd
+      app: golang-api
   template:
     metadata:
       labels:
-        app: go-example-argocd
+        app: golang-api
     spec:
       imagePullSecrets:
         - name: us-east-1-ecr-registry
       containers:
-        - name: go-example-argocd
-          image: go-example-argocd
+        - name: golang-api
+          image: golang-api
           imagePullPolicy: Always
           ports:
           - name: http
@@ -32,5 +32,5 @@ spec:
   strategy:
     blueGreen:
       autoPromotionEnabled: true
-      activeService: go-example-argocd
-      previewService: go-example-argocd-preview
+      activeService: golang-api
+      previewService: golang-api-preview
