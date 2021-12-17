@@ -113,7 +113,7 @@ jobs:
         run: |
           git config --local user.name 'letsrockthefuturebot'
           git add .
-          git commit -m 'Trigger ArgoCD sync with `${{ needs.release_drafter.outputs.tag_name }}`'
+          git commit -m 'Trigger ArgoCD sync with ${{ needs.release_drafter.outputs.tag_name }}'
 
       - name: Push changes
         uses: ad-m/github-push-action@master
