@@ -4,25 +4,19 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   # - "docs/**"
-    #   - "kubernetes/**"
-    #   - "src/**"
-  # pull_request:
-  #   branches:
-  #     - main
-  #   paths:
-  #     # - "docs/**"
-  #     - "kubernetes/**"
-  #     - "src/**"
-  # workflow_run:
-  #   workflows: 
-  #     - "Release workflow"
-  #   branches:
-  #     - main
-  #   types:
-  #     - completed
-  #     - requested
+    paths:
+      # - "docs/**"
+      - ".github/workflows/sync.yaml"
+      - "kubernetes/**"
+      - "src/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      # - "docs/**"
+      - ".github/workflows/sync.yaml"
+      - "kubernetes/**"
+      - "src/**"
 
 jobs:
   # build:
