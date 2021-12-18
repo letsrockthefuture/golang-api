@@ -81,7 +81,9 @@ jobs:
           ECR_REGISTRY: ${{ steps.login_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ github.event.repository.name }}
           # IMAGE_TAG: ${{ github.sha }}
-          IMAGE_TAG: ${{ needs.update_release_draft.outputs.tag_name }}
+          # IMAGE_TAG: ${{ needs.update_release_draft.outputs.tag_name }}
+          IMAGE_TAG_JOBS: ${{ jobs.update_release_draft.outputs.tag_name }}
+          IMAGE_TAG_NEEDS: ${{ needs.update_release_draft.outputs.tag_name }}
         working-directory: "src/"
         run: |
           echo ${IMAGE_TAG}
