@@ -10,4 +10,4 @@ namespace: default
 images:
 - name: golang-api
   newName: 260712519057.dkr.ecr.us-east-1.amazonaws.com/golang-api
-  newTag: 0.20.5
+  newTag: 0.20.6
