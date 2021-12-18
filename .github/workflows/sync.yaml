@@ -62,7 +62,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         
-      - name: Get AWS credentials
+      - name: AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: us-east-1
@@ -98,12 +98,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Kustomize
-        uses: imranismail/setup-kustomize@v1
-
       - name: Update manifests to new version
+        uses: imranismail/setup-kustomize@v1
         working-directory: "kubernetes/kustomize/"
         run: |
+          echo ${IMAGE_TAG}
           kustomize edit set image ${PROJECT_NAME}=260712519057.dkr.ecr.us-east-1.amazonaws.com/${PROJECT_NAME}:${IMAGE_TAG}
 
       - name: Commit changes
