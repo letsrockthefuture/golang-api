@@ -33,7 +33,7 @@ jobs:
   #         password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
   #         repository: danielvincenzi/${{ github.event.repository.name }}
   #         tags: ${{ github.sha }}, latest
-  release_drafter:
+  update_release_draft:
     name: Release drafter
     runs-on: ubuntu-latest
     steps:
@@ -43,8 +43,9 @@ jobs:
         with:
           # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
           # config-name: my-config.yml
-          publish: true
-          config-name: release.yaml
+          publish: false
+          prerelease: true
+          config-name: release-drafter.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     outputs:
