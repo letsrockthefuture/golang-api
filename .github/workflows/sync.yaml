@@ -98,12 +98,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Update manifests to new version
-        uses: imranismail/setup-kustomize@v1
-        working-directory: "kubernetes/kustomize/"
-        run: |
+      # - name: Update manifests to new version
+      - uses: imranismail/setup-kustomize@v1
+        
+      - run: |
           echo ${IMAGE_TAG}
+          cd kubernetes/kustomize/
           kustomize edit set image ${PROJECT_NAME}=260712519057.dkr.ecr.us-east-1.amazonaws.com/${PROJECT_NAME}:${IMAGE_TAG}
+
+      # - name: Update manifests to new version
+      #   uses: karancode/kustomize-github-action@master
+      #   with:
+      #     kustomize_version: 3.0.0
+      #     kustomize_build_dir: "kubernetes/kustomize/"
+          # kustomize_comment: true
+          # kustomize_output_file: "gitops/rendered.yaml"
+          # kustomize_build_options: "--load_restrictor none"
+          # enable_alpha_plugins: true
+        # env:
+        #   GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
 
       - name: Commit changes
         run: |
