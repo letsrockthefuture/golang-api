@@ -6,7 +6,7 @@ on:
       - main
     paths:
       # - "docs/**"
-      - ".github/workflows/sync.yaml"
+      - ".github/workflows/release.yaml"
       - "kubernetes/**"
       - "src/**"
   pull_request:
@@ -14,7 +14,7 @@ on:
       - main
     paths:
       # - "docs/**"
-      - ".github/workflows/sync.yaml"
+      - ".github/workflows/release.yaml"
       - "kubernetes/**"
       - "src/**"
 
