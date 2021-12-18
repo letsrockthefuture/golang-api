@@ -112,7 +112,7 @@ jobs:
         run: |
           git config --local user.name 'letsrockthefuturebot'
           git add .
-          git commit -m 'Trigger ArgoCD sync with ${IMAGE_TAG}'
+          git commit -m "Trigger ArgoCD sync with ${IMAGE_TAG}"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
