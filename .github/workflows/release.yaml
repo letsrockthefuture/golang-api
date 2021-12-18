@@ -48,8 +48,8 @@ jobs:
           config-name: release-drafter.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    # outputs:
-    #   tag_name: ${{ steps.update_release_draft.outputs.tag_name }}
+    outputs:
+      tag_name: ${{ steps.update_release_draft.outputs.tag_name }}
 
   build:
     name: Build Docker image
@@ -86,7 +86,8 @@ jobs:
           IMAGE_TAG_NEEDS: ${{ needs.update_release_draft.outputs.tag_name }}
         working-directory: "src/"
         run: |
-          echo ${IMAGE_TAG}
+          echo ${IMAGE_TAG_JOBS}
+          echo ${IMAGE_TAG_NEEDS}
           # docker build -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
           # docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
 
