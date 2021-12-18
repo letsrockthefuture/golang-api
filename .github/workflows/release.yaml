@@ -39,23 +39,23 @@ jobs:
     steps:
       # Drafts your next Release notes as Pull Requests are merged into "master"
       - uses: release-drafter/release-drafter@v5
-        id: release_drafter
+        id: update_release_draft
         with:
           # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
           # config-name: my-config.yml
-          publish: false
-          prerelease: true
+          publish: true
+          prerelease: false
           config-name: release-drafter.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    outputs:
-      tag_name: ${{ steps.release_drafter.outputs.tag_name }}
+    # outputs:
+    #   tag_name: ${{ steps.update_release_draft.outputs.tag_name }}
 
   build:
     name: Build Docker image
     runs-on: ubuntu-latest
     needs:
-      - release_drafter
+      - update_release_draft
     permissions:
       id-token: write
       contents: read
@@ -81,49 +81,51 @@ jobs:
           ECR_REGISTRY: ${{ steps.login_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ github.event.repository.name }}
           # IMAGE_TAG: ${{ github.sha }}
-          IMAGE_TAG: ${{ needs.release_drafter.outputs.tag_name }}
+          IMAGE_TAG: ${{ needs.update_release_draft.outputs.tag_name }}
         working-directory: "src/"
         run: |
-          docker build -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
-          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
-
-  sync:
-    name: Trigger ArgoCD sync
-    runs-on: ubuntu-latest
-    needs:
-      - build
-    env:
-      PROJECT_NAME: ${{ github.event.repository.name }}
-      IMAGE_TAG: ${{ needs.release_drafter.outputs.tag_name }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      # - name: Update manifests to new version
-      - uses: imranismail/setup-kustomize@v1
-        
-      - run: |
           echo ${IMAGE_TAG}
-          cd kubernetes/kustomize/
-          kustomize edit set image ${PROJECT_NAME}=260712519057.dkr.ecr.us-east-1.amazonaws.com/${PROJECT_NAME}:${IMAGE_TAG}
+          # docker build -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
+          # docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
 
-      # - name: Update manifests to new version
-      #   uses: karancode/kustomize-github-action@master
-      #   with:
-      #     kustomize_version: 3.0.0
-      #     kustomize_build_dir: "kubernetes/kustomize/"
-          # kustomize_comment: true
-          # kustomize_output_file: "gitops/rendered.yaml"
-          # kustomize_build_options: "--load_restrictor none"
-          # enable_alpha_plugins: true
-        # env:
-        #   GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+  # sync:
+  #   name: Trigger ArgoCD sync
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     - update_release_draft
+  #     - build
+  #   env:
+  #     PROJECT_NAME: ${{ github.event.repository.name }}
+  #     IMAGE_TAG: ${{ needs.release_drafter.outputs.tag_name }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      - name: Commit changes
-        run: |
-          git config --local user.name 'letsrockthefuturebot'
-          git add .
-          git commit -m 'Trigger ArgoCD sync with `${IMAGE_TAG}`'
+  #     # - name: Update manifests to new version
+  #     - uses: imranismail/setup-kustomize@v1
+        
+  #     - run: |
+  #         echo ${IMAGE_TAG}
+  #         cd kubernetes/kustomize/
+  #         kustomize edit set image ${PROJECT_NAME}=260712519057.dkr.ecr.us-east-1.amazonaws.com/${PROJECT_NAME}:${IMAGE_TAG}
 
-      - name: Push changes
-        uses: ad-m/github-push-action@master
+  #     # - name: Update manifests to new version
+  #     #   uses: karancode/kustomize-github-action@master
+  #     #   with:
+  #     #     kustomize_version: 3.0.0
+  #     #     kustomize_build_dir: "kubernetes/kustomize/"
+  #         # kustomize_comment: true
+  #         # kustomize_output_file: "gitops/rendered.yaml"
+  #         # kustomize_build_options: "--load_restrictor none"
+  #         # enable_alpha_plugins: true
+  #       # env:
+  #       #   GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+
+  #     - name: Commit changes
+  #       run: |
+  #         git config --local user.name 'letsrockthefuturebot'
+  #         git add .
+  #         git commit -m 'Trigger ArgoCD sync with `${IMAGE_TAG}`'
+
+  #     - name: Push changes
+  #       uses: ad-m/github-push-action@master
