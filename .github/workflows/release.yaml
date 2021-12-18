@@ -82,11 +82,11 @@ jobs:
           ECR_REPOSITORY: ${{ github.event.repository.name }}
           # IMAGE_TAG: ${{ github.sha }}
           # IMAGE_TAG: ${{ needs.update_release_draft.outputs.tag_name }}
-          IMAGE_TAG_JOBS: ${{ jobs.update_release_draft.outputs.tag_name }}
+          # IMAGE_TAG_JOBS: ${{ jobs.update_release_draft.outputs.tag_name }}
           IMAGE_TAG_NEEDS: ${{ needs.update_release_draft.outputs.tag_name }}
         working-directory: "src/"
         run: |
-          echo ${IMAGE_TAG_JOBS}
+          # echo ${IMAGE_TAG_JOBS}
           echo ${IMAGE_TAG_NEEDS}
           # docker build -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
           # docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
