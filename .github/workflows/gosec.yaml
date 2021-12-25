@@ -1,0 +1,21 @@
+name: "Golang security checker"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+    paths:
+      - ".github/workflows/gosec.yaml"
+      - "src/**"
+  pull_request:
+    branches:
+      - "main"
+    paths:
+      - ".github/workflows/gosec.yaml"
+      - "src/**"
+
+jobs:
+  gosec:
+    name: "Golang security checker"
+    uses: letsrockthefuture/reusable-workflows/.github/workflows/gosec.yaml@main
