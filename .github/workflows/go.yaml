@@ -18,4 +18,4 @@ on:
 jobs:
   gosec:
     name: "Golang security checker"
-    uses: letsrockthefuture/reusable-workflows/.github/workflows/gosec.yaml@main
+    uses: letsrockthefuture/reusable-workflows/.github/workflows/go.yaml@main
