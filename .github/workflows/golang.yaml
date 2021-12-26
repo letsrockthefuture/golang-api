@@ -19,3 +19,5 @@ jobs:
   golang:
     name: "Golang"
     uses: letsrockthefuture/reusable-workflows/.github/workflows/golang.yaml@main
+    with:
+      language: "go"
