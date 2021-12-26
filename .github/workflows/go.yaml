@@ -6,16 +6,16 @@ on:
     branches:
       - "main"
     paths:
-      - ".github/workflows/go.yaml"
+      - ".github/workflows/golang.yaml"
       - "src/**"
   pull_request:
     branches:
       - "main"
     paths:
-      - ".github/workflows/go.yaml"
+      - ".github/workflows/golang.yaml"
       - "src/**"
 
 jobs:
-  gosec:
-    name: "Golang security checker"
-    uses: letsrockthefuture/reusable-workflows/.github/workflows/go.yaml@main
+  golang:
+    name: "Golang"
+    uses: letsrockthefuture/reusable-workflows/.github/workflows/golang.yaml@main
