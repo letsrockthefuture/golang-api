@@ -1,4 +1,4 @@
-name: "Golang security checker"
+name: "Golang"
 
 on:
   workflow_dispatch:
