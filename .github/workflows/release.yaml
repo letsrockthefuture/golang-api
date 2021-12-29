@@ -1,4 +1,4 @@
-name: "Release drafter & ArgoCD sync workflow"
+name: "Release & ArgoCD sync workflow"
 
 on:
   push:
@@ -9,47 +9,20 @@ on:
       - ".github/workflows/release.yaml"
       - "kubernetes/**"
       - "src/**"
-  pull_request:
-    branches:
-      - main
-    paths:
-      # - "docs/**"
-      - ".github/workflows/release.yaml"
-      - "kubernetes/**"
-      - "src/**"
 
 jobs:
-  # build:
-  #   name: Build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: checkout
-  #       uses: actions/checkout@v2
-
-  #     - name: Build and push Docker image
-  #       uses: docker/build-push-action@v1
-  #       with:
-  #         username: ${{ secrets.DOCKER_USERNAME }}
-  #         password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-  #         repository: danielvincenzi/${{ github.event.repository.name }}
-  #         tags: ${{ github.sha }}, latest
   update_release_draft:
     name: Release drafter
     runs-on: ubuntu-latest
     steps:
-      # Drafts your next Release notes as Pull Requests are merged into "master"
       - uses: release-drafter/release-drafter@v5
         id: update_release_draft
         with:
-          # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
-          # config-name: my-config.yml
           publish: true
           prerelease: false
           config-name: release-drafter.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    outputs:
-      tag_name: ${{ steps.update_release_draft.outputs.tag_name }}
 
   build:
     name: Build Docker image
